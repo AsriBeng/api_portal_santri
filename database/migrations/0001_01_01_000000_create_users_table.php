@@ -11,18 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // 1. Buat tabel roles terlebih dahulu agar bisa di-referensi foreign key
-        Schema::create('roles', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('display_name')->nullable();
-            $table->text('description')->nullable();
-            $table->timestamps();
-        });
-
-        // 2. Buat tabel users dengan relasi role_id
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            // Menambahkan foreign key role_id yang mengacu pada tabel roles
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
             $table->string('name');
             $table->string('email')->unique();
@@ -56,6 +47,5 @@ return new class extends Migration
         Schema::dropIfExists('sessions');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('users');
-        Schema::dropIfExists('roles');
     }
 };
