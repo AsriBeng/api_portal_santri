@@ -44,6 +44,82 @@ Pastikan perangkat kamu sudah terinstal:
 - MySQL Database
 
 ### 2. Clone Repositori
-```bash
-git clone [https://github.com/USERNAME/api_portal_santri.git](https://github.com/USERNAME/api_portal_santri.git)
+git clone https://github.com/USERNAME/api_portal_santri.git
 cd api_portal_santri
+
+### 3. Install Dependensi
+composer install
+
+### 4. Konfigurasi Environment
+Salin file .env.example menjadi .env:
+cp .env.example .env
+
+Buka file .env dan atur konfigurasi database kamu:
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=db_santri_portal
+DB_USERNAME=root
+DB_PASSWORD=
+
+### 5. Generate Application Key & Jalankan Migrasi + Seed
+php artisan key:generate
+php artisan migrate:fresh --seed
+
+### 6. Jalankan Server Lokal
+php artisan serve
+
+Server API kamu sekarang berjalan di http://127.0.0.1:8000.
+
+---
+
+## 🔑 Akun Seeder Default untuk Pengujian
+
+Setiap akun dibekali dengan password default: 1234567890
+
+| ID Role | Role | Email | Password Default |
+| :---: | :--- | :--- | :--- |
+| **1** | **Admin** | admin@gmail.com | 1234567890 |
+| **2** | **Bendahara** | bendahara@gmail.com | 1234567890 |
+| **3** | **Sekretaris** | sekretaris@gmail.com | 1234567890 |
+| **4** | **Santri** | santri@gmail.com | 1234567890 |
+| **5** | **Ustadz** | ustadz@gmail.com | 1234567890 |
+
+---
+
+## 📌 Endpoint API Autentikasi
+
+### 1. Login
+- **Endpoint**: POST /api/login
+- **Headers**:
+  Accept: application/json
+  Content-Type: application/json
+- **Body Request**:
+  {
+    "email": "admin@gmail.com",
+    "password": "1234567890"
+  }
+
+### 2. Get Profile (Protected)
+- **Endpoint**: GET /api/me
+- **Headers**:
+  Authorization: Bearer <YOUR_SANCTUM_TOKEN>
+  Accept: application/json
+
+### 3. Logout (Protected)
+- **Endpoint**: POST /api/logout
+- **Headers**:
+  Authorization: Bearer <YOUR_SANCTUM_TOKEN>
+  Accept: application/json
+
+---
+
+## 🛡️ Security Vulnerabilities
+
+If you discover a security vulnerability within this application, please send an e-mail to Taylor Otwell via taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+
+---
+
+## 📄 License
+
+The Laravel framework and this project are open-sourced software licensed under the MIT license (https://opensource.org/licenses/MIT).
